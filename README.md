@@ -4,13 +4,16 @@ Wirehack is a hacker-style bare-metal playground for learning RISC-V assembly, C
 
 ## Repository Structure
 
-- asm/      ASM demos (Hello UART, strings, etc.)
-- c/        Bare-metal C demos
-- kernel/   Mini kernel experiments
-- include/  Shared headers
-- docs/     Notes and guides
-- scripts/  Build/run helpers
-- tools/    Analysis scripts
+```text
+wirehack/
+├── asm/          # ASM demos (Hello UART, string printing, macros)
+├── c/            # Bare-metal C demos
+├── kernel/       # Mini kernel experiments
+├── include/      # Shared headers (UART base addresses, macros)
+├── docs/         # Notes, guides, roadmap
+├── scripts/      # Helper scripts to build/run demos
+└── tools/        # Analysis tools (objdump scripts, memory map inspection)
+```
 
 ## Quickstart
 
