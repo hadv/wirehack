@@ -16,17 +16,16 @@ Wirehack is a hacker-style bare-metal playground for learning RISC-V assembly, C
 
 Run an ASM demo:
 
+```bash
 cd asm/hello
 make run
-
-Run a C demo:
-
-cd c/hello
-make run
+```
 
 Clean build files:
 
+```bash
 make clean
+```
 
 ## Notes
 
