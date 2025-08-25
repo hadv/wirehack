@@ -79,18 +79,19 @@ Hai thành phần quản lý tương ứng là:
 
 ```mermaid
 flowchart TD
-    subgraph CPU[CPU (Hart 0)]
-        MSTATUS(MSTATUS CSR)
-        MIE(MIE CSR)
-        MTVEC(MTVEC CSR)
+    subgraph CPU ["CPU (Hart 0)"]
+        MSTATUS["MSTATUS CSR"]
+        MIE["MIE CSR"]
+        MTVEC["MTVEC CSR"]
     end
 
-    CLINT[CLINT<br>(Timer + Software IRQ)]
-    PLIC[PLIC<br>(External IRQs)]
-    UART[UART (IRQ 10)]
-    Timer[MTIME/MTIMECMP]
+    CLINT["CLINT<br>(Timer + Software IRQ)"]
+    PLIC["PLIC<br>(External IRQs)"]
+    UART["UART (IRQ 10)"]
+    Timer["MTIME/MTIMECMP"]
 
     Timer --> CLINT
     CLINT --> CPU
     UART --> PLIC
     PLIC --> CPU
+```
