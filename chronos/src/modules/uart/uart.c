@@ -1,5 +1,5 @@
-#include "include/defs.h"
-#include "include/uart.h"
+#include "../../include/defs.h"
+#include "uart.h"
 
 static inline void mmio_write8(uintptr_t addr, uint8_t v) {
     *(volatile uint8_t*)addr = v;

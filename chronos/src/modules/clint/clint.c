@@ -1,6 +1,6 @@
-#include "include/defs.h"
-#include "include/clint.h"
-#include "include/uart.h"
+#include "../../include/defs.h"
+#include "clint.h"
+#include "../uart/uart.h"
 
 /* QEMU virt mtimer: 10 MHz by default (seen in OpenSBI log) */
 #define DEFAULT_MTIMER_HZ 10000000UL
@@ -27,11 +27,27 @@ void clint_timer_init(uint64_t hz, uint64_t interval_us) {
     csr_set_mie(1ULL << IRQ_M_TIMER);
 }
 
+/* Forward declaration from sched module */
+extern void schedule_once(void);
+extern int sched_current_task(void);
+
+static int tick_count = 0;
+
 void clint_timer_isr(void) {
     /* re-arm next tick */
     uint64_t hart = csr_read_mhartid();
     uint64_t now  = REG64(CLINT_MTIME);
     REG64(CLINT_MTIMECMP(hart)) = now + tick_interval_cycles;
 
-    uart_puts("[CLINT] timer tick\n");
+    tick_count++;
+
+    /* Print every 10 ticks to reduce output */
+    if (tick_count % 10 == 0) {
+        uart_puts("[CLINT] timer tick, task=");
+        uart_putc('0' + sched_current_task());
+        uart_puts("\n");
+    }
+
+    /* Preemptive task switch every tick */
+    schedule_once();
 }

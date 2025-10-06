@@ -1,6 +1,6 @@
-#include "include/defs.h"
-#include "include/plic.h"
-#include "include/uart.h"
+#include "../../include/defs.h"
+#include "plic.h"
+#include "../uart/uart.h"
 
 #define UART_IRQ_ID 10
 

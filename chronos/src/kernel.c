@@ -1,8 +1,9 @@
 #include <stdint.h>
 #include "include/defs.h"
-#include "include/uart.h"
-#include "include/clint.h"
-#include "include/plic.h"
+#include "modules/uart/uart.h"
+#include "modules/clint/clint.h"
+#include "modules/plic/plic.h"
+#include "modules/sched/sched.h"
 
 /* Forward from trap.S */
 void trap_handler(uint64_t cause, uint64_t epc, uint64_t tval);
@@ -42,18 +43,45 @@ void trap_handler(uint64_t cause, uint64_t epc, uint64_t tval) {
     }
 }
 
+/* Demo task A */
+static volatile int task_a_count = 0;
+void taskA(void) {
+    while (1) {
+        task_a_count++;
+        /* Just count, timer will preempt us */
+    }
+}
+
+/* Demo task B */
+static volatile int task_b_count = 0;
+void taskB(void) {
+    while (1) {
+        task_b_count++;
+        /* Just count, timer will preempt us */
+    }
+}
+
 void kernel_main(void) {
     uart_init();
     uart_puts("Chronos kernel booting...\n");
 
-    /* Init CLINT timer: 100ms tick at 10 MHz */
-    clint_timer_init(10000000UL, 100000);
+    /* Init scheduler with two tasks */
+    uart_puts("Initializing scheduler...\n");
+    tasks_init(taskA, taskB);
 
-    /* Init PLIC (optional). Enable UART THRE interrupt in uart_init to see IRQs */
+    /* Init CLINT timer: 10ms tick at 10 MHz for preemptive scheduling */
+    uart_puts("Starting preemptive scheduler with timer...\n");
+    clint_timer_init(10000000UL, 10000);  // 10ms ticks
+
+    /* Init PLIC (optional) */
     plic_init();
 
-    uart_puts("Timer armed; entering WFI loop.\n");
+    /* Jump to first task - scheduler will take over via timer */
+    uart_puts("Jumping to taskA...\n");
+    taskA();
 
+    /* Should never reach here */
+    uart_puts("ERROR: Returned from task!\n");
     while (1) {
         wfi();
     }
