@@ -2,3 +2,6 @@
 *.bin
 *.elf
 *.o
+
+# macOS system files
+.DS_Store
