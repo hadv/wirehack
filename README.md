@@ -1,4 +1,8 @@
-# Wirehack 🔧
+```
+╦ ╦╦╦═╗╔═╗╦ ╦╔═╗╔═╗╦╔═
+║║║║╠╦╝║╣ ╠═╣╠═╣║  ╠╩╗
+╚╩╝╩╩╚═╚═╝╩ ╩╩ ╩╚═╝╩ ╩
+```
 
 A hacker-style bare-metal playground for learning **RISC-V assembly, C, and OS development** on QEMU. From simple "Hello World" to a preemptive multitasking kernel!
 
